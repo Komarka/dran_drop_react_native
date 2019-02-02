@@ -1,2 +1,2 @@
-import TestStore from "./TestStore";
-export { TestStore };
+import CounterStore from "./CounterStore";
+export { CounterStore };

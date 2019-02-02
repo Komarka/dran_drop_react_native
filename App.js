@@ -5,29 +5,45 @@
  * @format
  * @flow
  */
-//!!!! ADD this "editor.formatOnSave": true in Visual Code Preferences to formate after save
 
+//react-native
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { withTestStore } from "@HOC";
-import { enableLogging } from "mobx-logger";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
-enableLogging({
-  predicate: () => __DEV__ && Boolean(window.navigator.userAgent),
-  action: true,
-  compute: true
-});
+//components
+import Draggable from "@components/Draggable";
+import Dropable from "@components/Dropable";
 
-@withTestStore
-class App extends Component {
+//HOC
+import { withCounterStore } from "@HOC";
+
+@withCounterStore
+export default class App extends Component {
+  counters = ["first", "second", "third"];
+
+  createDropables = () => {
+    const result = [];
+    for (let i = 0; i < 3; i++) {
+      result.push(
+        <Dropable key={i} counter={this.counters[i]} {...this.props} />
+      );
+    }
+    return result;
+  };
+
+  createDraggables = () => {
+    const result = [];
+    for (let i = 0; i < 3; i++) {
+      result.push(<Draggable key={i} {...this.props} />);
+    }
+    return result;
+  };
+
   render() {
-    let { testStore } = this.props;
-    // testStore.addItem();
-    testStore.getUsers();
-    console.log("Vava is ", testStore.total);
     return (
       <View style={styles.container}>
-        <Text>MOBX SKELETON</Text>
+        {this.createDropables()}
+        <View style={styles.draggableContainer}>{this.createDraggables()}</View>
       </View>
     );
   }
@@ -36,20 +52,12 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    alignItems: "center"
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
+  draggableContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: "7%"
   }
 });
-
-export default App;

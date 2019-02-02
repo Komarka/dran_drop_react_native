@@ -1,2 +1,2 @@
-import { withTestStore } from "./withTestStore";
-export { withTestStore };
+import { withCounterStore } from "./withCounterStore";
+export { withCounterStore };
